@@ -1,7 +1,7 @@
 import styled from "styled-components"
-import { useGlobal } from "../../context/GlobalContext"
 import { RiNotification3Line, RiSearchLine } from "react-icons/ri"
-import profile from '../../assets/images/profile.jpg'
+import profile from '../../../assets/images/profile.jpg'
+import { useGlobal } from "../../../context/GlobalContext"
 
 export const Searchbar = () => {
 

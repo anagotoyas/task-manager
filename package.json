@@ -10,11 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
     "react-icons": "^4.12.0",
-    "styled-components": "^6.1.1"
+    "styled-components": "^6.1.1",
+    "words-to-numbers": "^1.5.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

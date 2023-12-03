@@ -1,19 +1,18 @@
-import { Searchbar } from "../Searchbar"
+import { Searchbar } from "./Searchbar"
 import styled from "styled-components"
 import { useLocation } from "react-router-dom"
 import menu from "../../utils/menu"
-import { Option } from "../Option"
+import { Option } from "./Option"
 import { RiAddLine } from "react-icons/ri"
 import { useGlobal } from "../../context/GlobalContext"
 
 export const Navbar = () => {
 
-    const {theme} = useGlobal()
+    const { theme } = useGlobal()
 
 
     const location = useLocation()
     const pathname = location.pathname;
-    console.log(pathname)
 
     return (
         <>
@@ -23,7 +22,7 @@ export const Navbar = () => {
                 <ContainerIcons>
                     {
                         menu.slice().reverse().map((item, index) => (
-                            <Option key={index} to={item.link} icon={item.icon} isActive={item.link === pathname} />
+                            <Option key={index} to={item.link} icon={item.icon} active={item.link === pathname} />
                         )
 
                         )}
@@ -32,7 +31,7 @@ export const Navbar = () => {
                 </ContainerIcons>
                 <ContainerAdd theme={theme}>
                     <AddIcon theme={theme} size={24} style={{ minWidth: "24px" }} />
-                    
+
                 </ContainerAdd>
 
             </Container>
@@ -56,6 +55,7 @@ const Container = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: .5rem;
 `
 const ContainerAdd = styled.div`
     background-color: ${(props) => props.theme.colorRedPrimary};

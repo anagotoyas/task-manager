@@ -3,13 +3,10 @@ import { useGlobal } from "../../context/GlobalContext"
 import logo from "../../assets/images/logo.svg";
 import { SidebarItem } from "./SidebarItem";
 import menu from '../../utils/menu'
-import { useLocation } from "react-router-dom";
 
 
 export const Sidebar = () => {
   const { theme } = useGlobal()
-  const location = useLocation()
-  console.log(location)
   
   return (
     <SidebarStyled theme={theme}>
@@ -17,7 +14,6 @@ export const Sidebar = () => {
       <div className="sidebar-items">
         <ul className="nav-items">
           {menu.map((item, index) => {
-            console.log(menu[index].icon)
           return(
             
             <SidebarItem key={index} to={item.link} title={item.title} icon={item.icon} />
