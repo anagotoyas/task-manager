@@ -6,6 +6,7 @@ export interface Theme {
   colorRedPrimary: string;
   colorRedSecondary: string;
   colorGray: string;
+  colorGrayLight: string;
   colorGraySecondary: string;
   colorGreenPrimary: string;
   colorYellowPrimary: string;
@@ -33,6 +34,7 @@ export const themes: Theme[] = [
     colorRedPrimary: "#DA584B",
     colorRedSecondary:"#DA584B1A",
     colorGray: "#94979A",
+    colorGrayLight:"#393D41",
     colorGraySecondary: "#94979A1A",
     colorGreenPrimary: "#70B252",
     colorYellowPrimary: "#E5B454",

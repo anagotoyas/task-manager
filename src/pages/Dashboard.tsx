@@ -1,5 +1,8 @@
 import styled from "styled-components"
 import { Card } from "../components/Card"
+import { useGlobal } from "../context/GlobalContext"
+
+
 
 const tasks = [
   {
@@ -164,26 +167,96 @@ const tasks = [
 ]
 
 export const Dashboard = () => {
-  return (
-    <StyledHeader>
-      <div>
-      {
-        tasks.map((task, index) => {
-          return (
-            <Card key={index} title={task.name} points={task.pointEstimate} tags={task.tags} avatar={task.creator.avatar || null} dueDate={task.dueDate} />
-          )
-        })
-      }
-      </div>
 
-      
+  const { theme } = useGlobal()
+
+  const statuses = ["BACKLOG", "TODO", "IN_PROGRESS", "DONE", "CANCELLED"];
+
+
+  const filteredTasks = (selectedStatus: string) => {
+    return tasks.filter(
+      (task) =>
+        (task.status === selectedStatus)
+    );
+  };
+
+  const countTasksByStatus = (status: string) => {
+    return tasks.filter((task) => task.status === status).length;
+  }
+
+
+
+
+
+  return (
+    <StyledHeader theme={theme}>
+
+      {statuses.map((status, index) => (
+        <StyledColumn key={index} theme={theme}>
+          
+            <h2>{status} ({countTasksByStatus(status)})</h2>
+
+
+          
+          <StyledRow theme={theme} key={status}>
+
+
+            {filteredTasks(status).map((task, index) => (
+              <Card
+                key={index}
+                title={task.name}
+                points={task.pointEstimate}
+                tags={task.tags}
+                avatar={task.creator.avatar || null}
+                dueDate={task.dueDate}
+              />
+            ))}
+          </StyledRow>
+
+        </StyledColumn>
+
+      ))}
+
+
+
+
     </StyledHeader>
-    
+
 
 
   )
 }
 const StyledHeader = styled.div`
-    width: 100%;
-    overflow-y: auto;
+    width: full;
+   overflow-x: auto;
+   overflow-y: hidden;
+    display: flex;
+    flex-direction: row;
+    gap:1rem;
+    position: relative;
+   
+
+  
+`
+const StyledColumn = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 356px;
+  h2 {
+      margin-bottom: 10px;
+      font-size: 18px;
+      font-weight: 600;
+      color: ${(props) => props.theme.colorWhite};}
+
+
+  
+`;
+const StyledRow = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 356px;
+  overflow-y:auto;
+  
 `
