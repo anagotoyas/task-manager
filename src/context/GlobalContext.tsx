@@ -7,6 +7,7 @@ const initialContextValue: GlobalContextProps = {
   isLoading: false,
   collapsed: false,
   collapseMenu: () => {},
+
 };
 
 const GlobalContext = createContext<GlobalContextProps>(initialContextValue);
@@ -22,6 +23,7 @@ export function GlobalProvider({ children }: GlobalProviderProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
 
+
   const theme: Theme = themes[selectedTheme];
 
   const collapseMenu = () => {
@@ -33,6 +35,7 @@ export function GlobalProvider({ children }: GlobalProviderProps) {
     isLoading,
     collapsed,
     collapseMenu,
+   
   };
 
   return (

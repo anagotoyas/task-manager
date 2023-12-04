@@ -5,14 +5,26 @@ import menu from "../../utils/menu"
 import { Option } from "./Option"
 import { RiAddLine } from "react-icons/ri"
 import { useGlobal } from "../../context/GlobalContext"
+import { TaskModal } from "../TaskModal"
+import { useState } from "react"
 
 export const Navbar = () => {
 
     const { theme } = useGlobal()
+    const [isOpenTaskModal, setIsOpenTaskModal] = useState(false)
 
 
     const location = useLocation()
     const pathname = location.pathname;
+
+    const openModalTask = () => {
+        setIsOpenTaskModal(true);
+        
+      };
+    
+      const closeModalTask = () => {
+        setIsOpenTaskModal(false);
+      };
 
     return (
         <>
@@ -27,14 +39,23 @@ export const Navbar = () => {
 
                         )}
 
-
                 </ContainerIcons>
                 <ContainerAdd theme={theme}>
-                    <AddIcon theme={theme} size={24} style={{ minWidth: "24px" }} />
+                    <AddIcon theme={theme} size={24} style={{ minWidth: "24px" }}  onClick={openModalTask}
+                     />
 
                 </ContainerAdd>
 
             </Container>
+
+            <TaskModal
+            isOpen={isOpenTaskModal}
+            onClose={closeModalTask}
+            >
+                
+            </TaskModal>
+
+
 
 
 

@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import { useGlobal } from "../../context/GlobalContext";
-import { RiDeleteBin6Fill, RiDeleteBin6Line, RiEyeFill, RiFolderAddLine, RiMore2Fill, RiMoreLine, RiPencilLine, RiUserAddFill } from "react-icons/ri";
+import { RiDeleteBin6Line, RiMoreLine, RiPencilLine } from "react-icons/ri";
 import { TagPoint } from "./TagPoint";
 import { TagDate } from "./TagDate";
 import { TagLabel } from "./TagLabel/indext";
 import { Avatar } from "../common/Avatar";
-import { Menu, Transition } from '@headlessui/react'
+import { Menu } from '@headlessui/react'
 
 
 interface CardProps {
@@ -40,13 +40,13 @@ export const Card = (props: CardProps) => {
                         <StyledMenuItems theme={theme}>
                             <Menu.Item >
                                 <StyledMenuButton theme={theme}>
-                                    <RiPencilLine size={24} />Edit
+                                    <RiPencilLine size={18} />Edit
                                 </StyledMenuButton>
                             </Menu.Item>
 
                             <Menu.Item>
                                 <StyledMenuButton theme={theme}>
-                                    <RiDeleteBin6Line size={24} />Delete
+                                    <RiDeleteBin6Line size={18} />Delete
                                 </StyledMenuButton>
                             </Menu.Item>
                         </StyledMenuItems>
@@ -65,7 +65,7 @@ export const Card = (props: CardProps) => {
                     <TagLabel key={index} label={tag} />
                 ))}
             </div>
-            <Avatar src={avatar} />
+            <Avatar src={avatar} size={32} />
 
 
         </StyleCard>
@@ -131,7 +131,9 @@ const StyledMenuItems = styled.div`
     border-radius: .5rem;
     padding: .5rem;
     gap: .5rem;
-    border: 1px solid ${(props) => props.theme.colorGray};;
+    border: 1px solid ${(props) => props.theme.colorGray};
+    margin:0 1rem;
+    width: 138px;
 
     
 `   

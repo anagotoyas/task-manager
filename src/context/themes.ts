@@ -5,6 +5,7 @@ export interface Theme {
   colorBgSidebar: string;
   colorRedPrimary: string;
   colorRedSecondary: string;
+  colorRedLightPrimary: string;
   colorGray: string;
   colorGrayLight: string;
   colorGraySecondary: string;
@@ -20,6 +21,7 @@ export interface Theme {
   colorPurpleSecondary: string;
   fontSizeSm: string;
   fontSizeMd: string;
+  fontSizeLg: string;
   widthSidebar:string;
   gradientColorSidebar: string;
   widthCard:string;
@@ -33,6 +35,7 @@ export const themes: Theme[] = [
     colorBgSidebar: "#2C2F33",
     colorRedPrimary: "#DA584B",
     colorRedSecondary:"#DA584B1A",
+    colorRedLightPrimary: "#EBA59E",
     colorGray: "#94979A",
     colorGrayLight:"#393D41",
     colorGraySecondary: "#94979A1A",
@@ -48,6 +51,7 @@ export const themes: Theme[] = [
     colorPurpleSecondary: "#B998FF1A",
     fontSizeSm: "15px",
     fontSizeMd: "18px",
+    fontSizeLg: "20px",
     widthSidebar:"232px",
     gradientColorSidebar: "linear-gradient(90deg, rgba(186, 37, 37, 0.00) 0%, rgba(210, 77, 77, 0.10) 100%)",
     widthCard:"348px",
