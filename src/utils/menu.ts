@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { RiFunctionLine as GridIcon, RiMenuFill as MenuIcon } from 'react-icons/ri';
+import { RiFunctionLine as GridIcon, RiMenuFill as MenuIcon, RiSettings4Fill } from 'react-icons/ri';
 
 interface MenuItem {
   id: number;
@@ -20,6 +20,12 @@ const menu: MenuItem[] = [
     title: "MY TASK",
     icon: MenuIcon,
     link: "/my-task",
+  },
+  {
+    id: 3,
+    title: "SETTINGS",
+    icon: RiSettings4Fill,
+    link: "/settings",
   },
 ];
 
