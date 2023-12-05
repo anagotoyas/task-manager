@@ -18,8 +18,8 @@ export const Avatar = (props: AvatarProps) => {
 
 const StyledImg = styled.img<AvatarProps>`
 
-    width: ${(props) => props.size | 24}px;
-    height: ${(props) => props.size | 24}px;
+    width: ${(props) => props.size || 24}px;
+    height: ${(props) => props.size || 24}px;
     border-radius: 50%;
 
 

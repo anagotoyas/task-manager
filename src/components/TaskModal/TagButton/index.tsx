@@ -9,7 +9,7 @@ const tags = ["ANDROID", "IOS", "NODE_JS", "RAILS", "REACT"]
 
 interface TagButtonProps {
     tagsSelected: (string | undefined)[];
-    setTagsSelected: (tagsSelected: (string | undefined)[]) => void;
+    setTagsSelected: (tagsSelected: (string)[]) => void;
 }
 
 export const TagButton = (props: TagButtonProps) => {
@@ -22,8 +22,8 @@ export const TagButton = (props: TagButtonProps) => {
         tags.map((tag) => tagsSelected.includes(tag))
     );
 
-    console.log(tagsSelected)
-    console.log(checkedState)
+    // console.log(tagsSelected)
+    // console.log(checkedState)
     
 
 
@@ -31,7 +31,7 @@ export const TagButton = (props: TagButtonProps) => {
         
         if (tagsSelected.length === 0) {
             const updatedCheckedState = Array(tags.length).fill(false);
-            console.log(updateTagsSelected)
+            // console.log(updateTagsSelected)
             setCheckedState(updatedCheckedState);
         }
         setIsEstimateOpen(!isEstimateOpen);
@@ -49,7 +49,7 @@ export const TagButton = (props: TagButtonProps) => {
                 return tags[index]
             }
         }).filter(Boolean)
-        setTagsSelected(newTagsSelected)
+        setTagsSelected(newTagsSelected as string[])
 
     }
 

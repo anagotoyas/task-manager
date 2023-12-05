@@ -5,4 +5,5 @@ export interface GlobalContextProps {
   isLoading: boolean;
   collapsed: boolean;
   collapseMenu: () => void;
+  setIsLoading: (isLoading: boolean) => void;
 }

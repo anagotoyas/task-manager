@@ -4,11 +4,13 @@ import styled from "styled-components";
 import { useState } from "react";
 import { ButtonTask } from "../ButtonTask";
 
-const points = [0, 1, 2, 4, 8]
+
+
+const points = { "ZERO": 0, "ONE": 1, "TWO": 2, "FOUR": 4, "EIGHT": 8 }
 
 interface EstimateButtonProps {
-    pointValue: number | null;
-    setPointValue: (option: number) => void;
+    pointValue: string | null;
+    setPointValue: (option: string) => void;
 }
 
 export const EstimateButton = (props: EstimateButtonProps) => {
@@ -25,8 +27,10 @@ export const EstimateButton = (props: EstimateButtonProps) => {
         setIsEstimateOpen(!isEstimateOpen);
     };
 
-    const changePointValue = (option: number) => {
-        setPointValue(option)
+    const changePointValue = (key: string) => {
+        setPointValue(key)
+
+
         setIsEstimateOpen(false)
     }
 
@@ -36,17 +40,20 @@ export const EstimateButton = (props: EstimateButtonProps) => {
 
     return (
         <div>
-            <ButtonTask icon={RiIncreaseDecreaseFill} text={pointValue !== null ? `${pointValue} Points` : "Estimate"} visibleImg={false} visibleIcon={true} onClick={handleButtonClick} />
+            <ButtonTask icon={RiIncreaseDecreaseFill}
+                text={pointValue !== null ? `${points[pointValue as keyof typeof points]} Points` : "Estimate"}
+                visibleImg={false} visibleIcon={true} onClick={handleButtonClick} />
 
             {isEstimateOpen && (
 
                 <StyledEstimateOptions theme={theme} open={isEstimateOpen}>
                     <h3>Estimate</h3>
                     <ListOptions theme={theme} >
-                        {points.map((point) => (
-                            <ItemOption theme={theme} key={point} onClick={() => changePointValue(point)}>
+                        {Object.entries(points).map(([key, value]) => (
+                            <ItemOption theme={theme} key={key} onClick={() => changePointValue(key)}>
                                 <RiIncreaseDecreaseFill size={24} className="text-white" />
-                                {point} Points</ItemOption>
+                                {value} Points
+                            </ItemOption>
                         ))}
                     </ListOptions>
                 </StyledEstimateOptions >

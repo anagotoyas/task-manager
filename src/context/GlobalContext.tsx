@@ -7,9 +7,10 @@ const initialContextValue: GlobalContextProps = {
   isLoading: false,
   collapsed: false,
   collapseMenu: () => {},
+  setIsLoading: () => {},
 
 };
-
+ 
 const GlobalContext = createContext<GlobalContextProps>(initialContextValue);
 
 interface GlobalProviderProps {
@@ -19,9 +20,14 @@ interface GlobalProviderProps {
 export function GlobalProvider({ children }: GlobalProviderProps) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedTheme, setSelectedTheme] = useState(0);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  
+  
   const [isLoading, setIsLoading] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
+  
+
+
+
 
 
   const theme: Theme = themes[selectedTheme];
@@ -30,11 +36,15 @@ export function GlobalProvider({ children }: GlobalProviderProps) {
     setCollapsed(!collapsed);
   };
 
+  
+
   const contextValue: GlobalContextProps = {
     theme,
     isLoading,
     collapsed,
     collapseMenu,
+    setIsLoading,
+  
    
   };
 

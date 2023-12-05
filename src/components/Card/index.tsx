@@ -6,51 +6,118 @@ import { TagDate } from "./TagDate";
 import { TagLabel } from "./TagLabel/indext";
 import { Avatar } from "../common/Avatar";
 import { Menu } from '@headlessui/react'
-
+import { DeleteModal } from "../DeleteModal";
+import { useState } from "react";
+import { TaskModal } from "../TaskModal";
 
 interface CardProps {
+    id: string;
     title: string;
     points: string;
+    assignee: User;
     tags: string[];
-    avatar: User["avatar"] | null;
     dueDate: string;
+    status: string;
+
+
 }
 
 
 
 interface User {
-    name: string;
-    avatar: string;
+    fullName: string;
+    avatar: string | null;
+    id: string;
+
 }
 
 export const Card = (props: CardProps) => {
     const { theme } = useGlobal()
-    const { title, points, tags, avatar, dueDate } = props
+    const { title, points, tags, dueDate, id, assignee, status } = props;
+    const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
+    const [isOpenTaskModal, setIsOpenTaskModal] = useState(false);
+
+
+
+    let initialData = {
+        id,
+        title,
+        pointValue: points,
+        user: assignee,
+        tagsSelected: tags,
+        dateSelected: dueDate,
+        status: status
+    };
+
+
+
+
+
+    const openDeleteModal = () => {
+        setIsOpenDeleteModal(true);
+
+    };
+
+    const openModalTask = () => {
+        setIsOpenTaskModal(true);
+
+    };
+
+    const closeModalTask = () => {
+        setIsOpenTaskModal(false);
+    };
+
+
+    const closeDeleteModal = () => {
+        setIsOpenDeleteModal(false);
+    };
+
+    const handleUpdateTask = () => {
+        initialData = {
+            id,
+            title,
+            pointValue: points,
+            user: assignee,
+            tagsSelected: tags,
+            dateSelected: dueDate,
+            status: status
+
+        };
+        openModalTask()
+
+    }
+
+
+
+
+
+
+
     return (
-        <StyleCard theme={theme}>
-            <StyledHeader theme={theme}>
+        <StyleCard theme={theme} >
+            <StyledHeader theme={theme} className="relative">
                 <p>
                     {title}
                 </p>
-                <Menu as="div" className="">
-                    <Menu.Button>
+                <Menu as="div">
+                    <Menu.Button >
                         <StyledIcon theme={theme} size={32} />
                     </Menu.Button>
-                    <Menu.Items>
+                    <StyledContMenuItems theme={theme}>
                         <StyledMenuItems theme={theme}>
                             <Menu.Item >
-                                <StyledMenuButton theme={theme}>
+                                <StyledMenuButton theme={theme} onClick={handleUpdateTask}>
                                     <RiPencilLine size={18} />Edit
                                 </StyledMenuButton>
                             </Menu.Item>
 
                             <Menu.Item>
-                                <StyledMenuButton theme={theme}>
+                                <StyledMenuButton theme={theme} onClick={openDeleteModal}>
                                     <RiDeleteBin6Line size={18} />Delete
                                 </StyledMenuButton>
                             </Menu.Item>
                         </StyledMenuItems>
-                    </Menu.Items>
+                    </StyledContMenuItems>
                 </Menu>
 
             </StyledHeader>
@@ -65,7 +132,25 @@ export const Card = (props: CardProps) => {
                     <TagLabel key={index} label={tag} />
                 ))}
             </div>
-            <Avatar src={avatar} size={32} />
+            <Avatar src={assignee.avatar} size={32} />
+
+            <DeleteModal
+                isOpen={isOpenDeleteModal}
+                onClose={closeDeleteModal}
+                id={id}
+                title={title}
+            >
+
+            </DeleteModal>
+
+            <TaskModal
+                isOpen={isOpenTaskModal}
+                onClose={closeModalTask}
+                initialData={initialData}
+            >
+
+            </TaskModal>
+
 
 
         </StyleCard>
@@ -91,6 +176,7 @@ const StyleCard = styled.div`
     & .tags {
         display: flex;
         gap: .5rem;
+        flex-wrap: wrap;
     }
 
 
@@ -111,7 +197,7 @@ const StyledHeader = styled.div`
     }
 `
 
-const StyledIcon= styled(RiMoreLine)`
+const StyledIcon = styled(RiMoreLine)`
     display: flex;
     color: ${(props) => props.theme.colorGray};
     width: 32px;
@@ -123,20 +209,26 @@ const StyledIcon= styled(RiMoreLine)`
 
  
 `
+const StyledContMenuItems = styled(Menu.Items)`
+    top: 10;
+    position: absolute; 
+    right: 0;
 
+
+`
 const StyledMenuItems = styled.div`
-    position: absolute;
+    position: relative;
+    z-index: 50;
     right: 0;
     background-color: ${(props) => props.theme.colorGrayLight};
     border-radius: .5rem;
     padding: .5rem;
     gap: .5rem;
     border: 1px solid ${(props) => props.theme.colorGray};
-    margin:0 1rem;
     width: 138px;
 
     
-`   
+`
 
 const StyledMenuButton = styled.button`
     display: flex;
@@ -156,3 +248,4 @@ const StyledMenuButton = styled.button`
 
 
 `
+

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useGlobal } from "../../context/GlobalContext";
 import { EstimateButton } from "./EstimateButton";
@@ -6,12 +6,27 @@ import { AsigneeButton } from "./AsigneeButton";
 import { TagButton } from "./TagButton";
 import 'animate.css';
 import { DueDateButton } from "./DueDateButton";
+import { useMutation } from '@apollo/client';
+import { CREATE_TASK_MUTATION, UPDATE_TASK_MUTATION } from '../../graphql/mutations';
+import { GET_TASKS } from '../../graphql/queries';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 
 interface TaskModalProps {
     isOpen: boolean;
     onClose: () => void;
     children: React.ReactNode;
+    initialData?: {
+        id: string;
+        title: string;
+        pointValue: string | null;
+        user: User,
+        tagsSelected: string[];
+        dateSelected: string | null;
+        status: string | null;
+    };
 }
 
 
@@ -23,24 +38,93 @@ interface User {
 
 
 export const TaskModal = (props: TaskModalProps) => {
-    const { isOpen, onClose, children } = props;
-    const [pointValue, setPointValue] = useState(null as number | null)
-    const [user, setUser] = useState(null as User | null)
-    const [tagsSelected, setTagsSelected] = useState([] as (string | undefined)[])
-    const [dateSelected, setDateSelected] = useState(null as string | null)
 
-
+    const { isOpen, onClose, children, initialData } = props;
     
-    console.log(tagsSelected)
+    const { setIsLoading, theme } = useGlobal()
+    const [pointValue, setPointValue] = useState(initialData?.pointValue ?? null);
+    const [user, setUser] = useState(initialData?.user ?? null);
+    const [tagsSelected, setTagsSelected] = useState(initialData?.tagsSelected ?? []);
+    const [dateSelected, setDateSelected] = useState(initialData?.dateSelected ?? null);
+    const [taskTitle, setTaskTitle] = useState(initialData?.title ?? "");
+    const [status, setStatus] = useState(initialData?.status ?? "BACKLOG");
 
-    const { theme } = useGlobal()
+
+
+    const [createTaskMutation] = useMutation(CREATE_TASK_MUTATION, {
+        refetchQueries: [{ query: GET_TASKS }],
+        awaitRefetchQueries: true,
+        onCompleted: () => {
+            closeModal();
+        },
+    });
+
+    const [updateTaskMutation] = useMutation(UPDATE_TASK_MUTATION, {
+        refetchQueries: [{ query: GET_TASKS }],
+        awaitRefetchQueries: true,
+        onCompleted: () => {
+            closeModal();
+        },
+    });
+
 
     const stopPropagation = (e: React.MouseEvent) => {
         e.preventDefault();
-        e.stopPropagation();
     };
 
-    const closeModal = () =>{
+    const handleCreateTask = async () => {
+        try {
+            setIsLoading(true)  
+
+            if(initialData){
+                await updateTaskMutation({
+                    variables: {
+                        input: {
+                            id: initialData?.id,
+                            name: taskTitle,
+                            pointEstimate: pointValue !== null ? pointValue : undefined,
+                            assigneeId: user?.id !== null ? user?.id : undefined,
+                            status: status,
+                            tags: tagsSelected,
+                            dueDate: dateSelected,
+                        },
+                    },
+                });
+                toast.success('Task updated successfully');
+            }
+            else {
+                await createTaskMutation({
+                    variables: {
+                        input: {
+                            name: taskTitle,
+                            pointEstimate: pointValue !== null ? pointValue : undefined,
+                            assigneeId: user?.id !== null ? user?.id : undefined,
+                            status: status,
+                            tags: tagsSelected,
+                            dueDate: dateSelected,
+                        },
+                    },
+                });
+                toast.success('Task created successfully');
+            }
+         
+
+            closeModal();
+
+           
+        } catch (error) {
+            console.error('Error creating task', error);
+            {
+                initialData ? toast.error('Error updating task. Please try again.') : toast.error('Error creating task. Please try again.')
+            }
+
+        } finally {
+            setIsLoading(false)
+        }
+    };
+
+    const closeModal = () => {
+        setTaskTitle("")
         setPointValue(null)
         setUser(null)
         setTagsSelected([])
@@ -48,34 +132,52 @@ export const TaskModal = (props: TaskModalProps) => {
         onClose()
     }
 
+    useEffect(() => {
+        if (isOpen) {
+            setTaskTitle(initialData?.title ?? "");
+            setPointValue(initialData?.pointValue ?? null);
+            setUser(initialData?.user ?? null);
+            setTagsSelected(initialData?.tagsSelected ?? []);
+            setDateSelected(initialData?.dateSelected ?? null);
+            setStatus(initialData?.status ?? "BACKLOG");
+
+        }
+    }, [isOpen]);
 
 
 
-return (
-    <ModalOverlay open={isOpen} >
-        <OverlayBackground />
-        <ModalContainer theme={theme} onClick={stopPropagation}
-        >
-            <StyledInput theme={theme} type="text" placeholder="Task Title" />
-            <StyledActions >
-                <EstimateButton pointValue={pointValue} setPointValue={setPointValue} />
-                <AsigneeButton user={user} setUser={setUser} />
-                <TagButton tagsSelected={tagsSelected} setTagsSelected={setTagsSelected} />
-                <DueDateButton dateSelected={dateSelected}setDateSelected={setDateSelected} />
-            </StyledActions>
+
+    return (
+        <ModalOverlay open={isOpen} >
+            <OverlayBackground />
+            <ModalContainer theme={theme} onClick={stopPropagation}
+            >
+                <StyledInput theme={theme} value={taskTitle} type="text" placeholder="Task Title" onChange={(e) => setTaskTitle(e.target.value)} />
+            
+               
+                <StyledActions >
+                  
+                    <EstimateButton pointValue={pointValue} setPointValue={setPointValue} />
+                    <AsigneeButton user={user} setUser={setUser} />
+                    <TagButton tagsSelected={tagsSelected} setTagsSelected={setTagsSelected} />
+                    <DueDateButton dateSelected={dateSelected} setDateSelected={setDateSelected} />
+                </StyledActions>
 
 
+                <StyledContainerButtons>
+                    <StyledCancelButton theme={theme} onClick={closeModal}>Cancel</StyledCancelButton>
+                    <StyledCreateButton theme={theme} onClick={handleCreateTask}>
+                        {
+                            initialData ? 'Update' : 'Create'
+                        }
+                    </StyledCreateButton>
+                </StyledContainerButtons>
+                {children}
 
-            <StyledContainerButtons>
-                <StyledCancelButton theme={theme} onClick={closeModal}>Cancel</StyledCancelButton>
-                <StyledCreateButton theme={theme}>Create</StyledCreateButton>
-            </StyledContainerButtons>
-            {children}
-
-        </ModalContainer>
-
-    </ModalOverlay>
-);
+            </ModalContainer>
+           
+        </ModalOverlay>
+    );
 };
 
 const ModalOverlay = styled.div<{ open: boolean }>`

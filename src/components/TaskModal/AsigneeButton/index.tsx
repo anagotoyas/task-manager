@@ -48,15 +48,15 @@ export const AsigneeButton = (props: AsigneeButtonProps) => {
     const [isEstimateOpen, setIsEstimateOpen] = useState(false)
     
     
-
-
+    
     const handleButtonClick = () => {
-        console.log(isEstimateOpen)
+        // console.log(isEstimateOpen)
         setIsEstimateOpen(!isEstimateOpen);
     };
 
     const changeUserValues = (user:User) => {
         setUser(user)
+        
        
         setIsEstimateOpen(false) 
     }
