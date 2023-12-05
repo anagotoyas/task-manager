@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Disclosure } from '@headlessui/react';
 import { TaskRow } from '../components/TaskCell/TaskRow';
 import { TaskHeader } from '../components/TaskCell/TaskHeader';
+import { TaskEmpty } from '../components/TaskCell/TaskEmpty';
 
 
 
@@ -57,6 +58,7 @@ export const MyTask = () => {
                       title={task.name}
                     />
                   ))}
+                   {filteredTasks(status).length === 0 && <TaskEmpty />}
                 </Disclosure.Panel>
               </>
             )}
@@ -66,6 +68,7 @@ export const MyTask = () => {
         </div>
 
       ))}
+     
 
     </StyledContent>
 

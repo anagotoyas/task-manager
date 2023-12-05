@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { Card } from "../components/Card";
 import { useGlobal } from "../context/GlobalContext";
 import {  Task } from "../utils/types";
+import { EmptyCard } from "../components/EmptyCard";
 
 
 
@@ -45,6 +46,7 @@ export const Dashboard = () => {
                 dueDate={task.dueDate}
               />
             )})}
+            {filteredTasks(status).length === 0 && <EmptyCard />}
           </StyledRow>
      
         </StyledColumn>
