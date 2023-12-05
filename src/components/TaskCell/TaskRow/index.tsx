@@ -2,8 +2,9 @@ import React from 'react';
 import { useGlobal } from '../../../context/GlobalContext';
 import styled from 'styled-components';
 import { TagLabel } from '../../Card/TagLabel/indext';
-import { Avatar } from 'antd';
+
 import { TagDate } from '../../Card/TagDate';
+import { Avatar } from '../../common/Avatar';
 
 interface TaskRowProps {
   tagSelected: string[];
@@ -47,13 +48,14 @@ export const TaskRow: React.FC<TaskRowProps> = ({
         ))}
       </StyledColumn>
       <StyledColumn theme={theme} className="col-span-1">
-        {wordToNumber[pointValue as keyof typeof wordToNumber]}
-      </StyledColumn>
-      <StyledColumn theme={theme} className="col-span-3">
-        <Avatar size={22} src={assignee.avatar} />
-        {assignee.fullName}
+        {wordToNumber[pointValue as keyof typeof wordToNumber]} Points
       </StyledColumn>
       <StyledColumn theme={theme} className="col-span-2">
+        <Avatar size={22} src={assignee.avatar} />
+        <p className="ellipsis"> {assignee.fullName}</p>
+       
+      </StyledColumn>
+      <StyledColumn theme={theme} className="col-span-3">
         <TagDate date={dueDate} />
       </StyledColumn>
     </StyledHeader>
@@ -65,10 +67,20 @@ const StyledHeader = styled.div`
   grid-template-columns: repeat(10, 10%);
   background-color: ${(props) => props.theme.colorBgSidebar};
   color: ${(props) => props.theme.colorWhite};
-  border-radius: 8px;
+  border-radius:  0 ;
   align-items: center;
   justify-content: center;
   border: 2px solid ${(props) => props.theme.colorGrayLight};
+
+  &:last-child {
+  border-radius: 0 0  8px 8px;
+
+  }
+  &:first-child {
+    border: 2px solid ${(props) => props.theme.colorGrayLight};
+    border-top: none;
+
+  }
 `;
 
 const StyledColumn = styled.div`
@@ -83,6 +95,13 @@ const StyledColumn = styled.div`
   width: inherit;
   overflow-x: auto;
   gap: 0.5rem;
+
+  p {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    flex-grow: 1; 
+  }
 
   &:last-child {
     border-right: none;

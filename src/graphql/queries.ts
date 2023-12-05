@@ -20,22 +20,3 @@ query GetAllTasks {
 	}
   }`;
 
-  export const GET_TASK_BY_ID = gql`
-  query GetTaskById($taskId: ID!) {
-    task(id: $taskId) {
-      id
-      creator {
-        id
-        avatar
-        fullName
-      }
-      createdAt
-      dueDate
-      name
-      pointEstimate
-      position
-      status
-      tags
-    }
-  }
-  `

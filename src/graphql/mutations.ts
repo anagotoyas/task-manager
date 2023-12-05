@@ -48,21 +48,3 @@ mutation UpdateTask($input: UpdateTaskInput!) {
 }
 
 `
-export const MOVE_TASK_MUTATION = gql`
-mutation MoveTask($input: UpdateTaskInput!) {
-	updateTask(input: $input) {
-		id
-		name
-		tags
-		status
-		dueDate
-		position
-		pointEstimate
-		assignee {
-			id
-			avatar
-			fullName
-		}
-	}
-}
-`

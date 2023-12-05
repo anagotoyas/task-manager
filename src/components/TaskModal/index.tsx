@@ -6,66 +6,28 @@ import { AsigneeButton } from "./AsigneeButton";
 import { TagButton } from "./TagButton";
 import 'animate.css';
 import { DueDateButton } from "./DueDateButton";
-import { useMutation } from '@apollo/client';
-import { CREATE_TASK_MUTATION, UPDATE_TASK_MUTATION } from '../../graphql/mutations';
-import { GET_TASKS } from '../../graphql/queries';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { TaskModalProps } from "../../utils/types";
 
 
-
-interface TaskModalProps {
-    isOpen: boolean;
-    onClose: () => void;
-    children: React.ReactNode;
-    initialData?: {
-        id: string;
-        title: string;
-        pointValue: string | null;
-        user: User,
-        tagsSelected: string[];
-        dateSelected: string | null;
-        status: string | null;
-    };
-}
-
-
-interface User {
-    id: string;
-    avatar: string | null;
-    fullName: string;
-}
 
 
 export const TaskModal = (props: TaskModalProps) => {
 
     const { isOpen, onClose, children, initialData } = props;
     
-    const { setIsLoading, theme } = useGlobal()
-    const [pointValue, setPointValue] = useState(initialData?.pointValue ?? null);
+    const { setIsLoading, theme, createTask, updateTask  } = useGlobal()
+    const [pointValue, setPointValue] = useState(initialData?.pointValue ?? undefined);
     const [user, setUser] = useState(initialData?.user ?? null);
     const [tagsSelected, setTagsSelected] = useState(initialData?.tagsSelected ?? []);
-    const [dateSelected, setDateSelected] = useState(initialData?.dateSelected ?? null);
+    const [dateSelected, setDateSelected] = useState(initialData?.dateSelected ?? undefined);
     const [taskTitle, setTaskTitle] = useState(initialData?.title ?? "");
     const [status, setStatus] = useState(initialData?.status ?? "BACKLOG");
 
 
 
-    const [createTaskMutation] = useMutation(CREATE_TASK_MUTATION, {
-        refetchQueries: [{ query: GET_TASKS }],
-        awaitRefetchQueries: true,
-        onCompleted: () => {
-            closeModal();
-        },
-    });
-
-    const [updateTaskMutation] = useMutation(UPDATE_TASK_MUTATION, {
-        refetchQueries: [{ query: GET_TASKS }],
-        awaitRefetchQueries: true,
-        onCompleted: () => {
-            closeModal();
-        },
-    });
+ 
 
 
     const stopPropagation = (e: React.MouseEvent) => {
@@ -77,33 +39,28 @@ export const TaskModal = (props: TaskModalProps) => {
             setIsLoading(true)  
 
             if(initialData){
-                await updateTaskMutation({
-                    variables: {
-                        input: {
+                await updateTask({
                             id: initialData?.id,
-                            name: taskTitle,
-                            pointEstimate: pointValue !== null ? pointValue : undefined,
-                            assigneeId: user?.id !== null ? user?.id : undefined,
-                            status: status,
-                            tags: tagsSelected,
-                            dueDate: dateSelected,
-                        },
-                    },
+                            name: initialData?.title !== taskTitle ? taskTitle : undefined,
+                            pointEstimate: initialData?.pointValue !== pointValue ? pointValue : undefined,
+                            assigneeId: initialData?.user?.id !== user?.id ? user?.id : undefined,
+                            status: initialData?.status !== status ? status : undefined,
+                            tags: innerWidth !== initialData?.tagsSelected.length ? tagsSelected : undefined,
+                            dueDate: initialData?.dateSelected !== dateSelected ? dateSelected : undefined,
+                      
+                   
                 });
                 toast.success('Task updated successfully');
             }
             else {
-                await createTaskMutation({
-                    variables: {
-                        input: {
+                await createTask({
                             name: taskTitle,
                             pointEstimate: pointValue !== null ? pointValue : undefined,
                             assigneeId: user?.id !== null ? user?.id : undefined,
                             status: status,
                             tags: tagsSelected,
                             dueDate: dateSelected,
-                        },
-                    },
+                       
                 });
                 toast.success('Task created successfully');
             }
@@ -125,20 +82,20 @@ export const TaskModal = (props: TaskModalProps) => {
 
     const closeModal = () => {
         setTaskTitle("")
-        setPointValue(null)
+        setPointValue(undefined)
         setUser(null)
         setTagsSelected([])
-        setDateSelected(null)
+        setDateSelected(undefined)
         onClose()
     }
 
     useEffect(() => {
         if (isOpen) {
             setTaskTitle(initialData?.title ?? "");
-            setPointValue(initialData?.pointValue ?? null);
+            setPointValue(initialData?.pointValue ?? undefined);
             setUser(initialData?.user ?? null);
             setTagsSelected(initialData?.tagsSelected ?? []);
-            setDateSelected(initialData?.dateSelected ?? null);
+            setDateSelected(initialData?.dateSelected ?? undefined);
             setStatus(initialData?.status ?? "BACKLOG");
 
         }

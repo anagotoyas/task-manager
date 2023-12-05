@@ -6,11 +6,12 @@ import { useGlobal } from "../../../context/GlobalContext"
 export const Searchbar = () => {
 
     const { theme } = useGlobal()
+    
 
     return (
         <SearchbarStyled theme={theme}>
             <RiSearchLine size={24} style={{ minWidth: "24px" }} />
-            <StyledInput theme={theme} type="text" placeholder="Search" />
+            <StyledInput theme={theme} type="text" placeholder="Search"/>
 
             <RiNotification3Line size={24} style={{ minWidth: "24px" }} />
             <StyledImg src={profile} alt="profile" />
@@ -33,6 +34,13 @@ const StyledInput = styled.input`
 	border: none;
 	background-color: transparent;
     color: ${(props) => props.theme.colorWhite};
+
+    &:focus {
+    outline: none;
+    &::placeholder {
+      color: transparent;
+    }
+  }
 
 	font-size: ${(props) => props.theme.fontSizeSm};
 

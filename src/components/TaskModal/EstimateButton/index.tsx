@@ -9,7 +9,7 @@ import { ButtonTask } from "../ButtonTask";
 const points = { "ZERO": 0, "ONE": 1, "TWO": 2, "FOUR": 4, "EIGHT": 8 }
 
 interface EstimateButtonProps {
-    pointValue: string | null;
+    pointValue: string | undefined;
     setPointValue: (option: string) => void;
 }
 
@@ -41,7 +41,7 @@ export const EstimateButton = (props: EstimateButtonProps) => {
     return (
         <div>
             <ButtonTask icon={RiIncreaseDecreaseFill}
-                text={pointValue !== null ? `${points[pointValue as keyof typeof points]} Points` : "Estimate"}
+                text={pointValue !== undefined ? `${points[pointValue as keyof typeof points]} Points` : "Estimate"}
                 visibleImg={false} visibleIcon={true} onClick={handleButtonClick} />
 
             {isEstimateOpen && (

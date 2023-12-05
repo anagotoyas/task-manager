@@ -1,45 +1,15 @@
 import styled from "styled-components";
 import { Card } from "../components/Card";
 import { useGlobal } from "../context/GlobalContext";
-import { useQuery } from "@apollo/client";
-import { GET_TASKS } from "../graphql/queries";
+import {  Task } from "../utils/types";
 
-
-interface Task {
-  id: string;
-  creator: {
-    id: string;
-    avatar: string | null;
-    fullName: string;
-  };
-  assignee: {
-    id: string;
-    avatar: string | null;
-    fullName: string;
-  };
-  createdAt: string;
-  dueDate: string;
-  name: string;
-  pointEstimate: string;
-  position: string;
-  status: string;
-  tags: string[];
-}
-
-interface DashboardData {
-  tasks: Task[];
-}
 
 
 
 export const Dashboard = () => {
-  const { theme } = useGlobal();
-  const { loading, error, data } = useQuery<DashboardData>(GET_TASKS);
+  const { theme, tasks } = useGlobal();
 
-
-
-
-  const tasks = data?.tasks || [];
+  
   const statuses = ["BACKLOG", "TODO", "IN_PROGRESS", "DONE", "CANCELLED"];
 
   const filteredTasks = (selectedStatus: string) => {
@@ -53,9 +23,7 @@ export const Dashboard = () => {
   };
 
 
-  if (error) return <p>Error: {error.message}</p>
-  if (loading) return (
-    <p className="text-white">Loading...</p>)
+ 
   
   return (
     <StyledHeader theme={theme}>

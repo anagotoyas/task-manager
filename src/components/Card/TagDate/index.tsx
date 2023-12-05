@@ -21,19 +21,27 @@ export const TagDate = (props: TagDateProps) => {
 
     let displayText = dateFormat;
 
+    let status = "on-time";
+
     if (isDateToday) {
-        displayText = 'Today';
+        displayText = "Today";
+        status = "warning";
     } else if (isDateTomorrow) {
-        displayText = 'Tomorrow';
+        displayText = "Tomorrow";
+        status = "warning";
     } else if (isDateYesterday) {
-        displayText = 'Yesterday';
+        displayText = "Yesterday";
+    } else if (isDateBeforeToday) {
+        status = "overdue";
+    } else if (momentDate.diff(moment(), 'days') < 2) {
+        status = "warning";
     }
 
 
 
 
     return (
-        <StyledTagDate theme={theme} className={`${isDateBeforeToday ? "overdue" : "on-time"}`}>
+        <StyledTagDate theme={theme} className={status}>
             <RiAlarmLine size={24} />
             {displayText}
         </StyledTagDate>
@@ -58,5 +66,9 @@ const StyledTagDate = styled.div`
         color: ${(props) => props.theme.colorWhite};
         background-color: ${(props) => props.theme.colorGraySecondary};
     }
+    &.warning {
+    color: ${(props) => props.theme.colorYellowPrimary}; 
+    background-color: ${(props) => props.theme.colorYellowSecondary};
+  }
     
     `

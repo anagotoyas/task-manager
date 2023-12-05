@@ -22,8 +22,7 @@ export const TagButton = (props: TagButtonProps) => {
         tags.map((tag) => tagsSelected.includes(tag))
     );
 
-    // console.log(tagsSelected)
-    // console.log(checkedState)
+   
     
 
 
@@ -31,7 +30,6 @@ export const TagButton = (props: TagButtonProps) => {
         
         if (tagsSelected.length === 0) {
             const updatedCheckedState = Array(tags.length).fill(false);
-            // console.log(updateTagsSelected)
             setCheckedState(updatedCheckedState);
         }
         setIsEstimateOpen(!isEstimateOpen);

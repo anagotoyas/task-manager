@@ -1,10 +1,7 @@
 import React from 'react'
 import styled from 'styled-components';
 import { useGlobal } from '../../context/GlobalContext';
-import { useMutation } from '@apollo/client';
-import { DELETE_TASK_MUTATION } from '../../graphql/mutations';
 import { toast } from 'react-toastify';
-import { GET_TASKS } from '../../graphql/queries';
 
 interface DeleteModalProps {
     isOpen: boolean;
@@ -17,15 +14,7 @@ interface DeleteModalProps {
 
 export const DeleteModal = ({ isOpen, onClose, children, id, title }: DeleteModalProps) => {
 
-    const { theme, setIsLoading } = useGlobal()
-    const [deleteTaskMutation] = useMutation(DELETE_TASK_MUTATION, {
-        refetchQueries: [{ query: GET_TASKS }],
-        awaitRefetchQueries: true,
-        onCompleted: () => {
-            onClose();
-        },
-    });
-
+    const { theme, deleteTask } = useGlobal()
 
 
 
@@ -36,27 +25,15 @@ export const DeleteModal = ({ isOpen, onClose, children, id, title }: DeleteModa
     };
 
     const handleDelete = async () => {
-        setIsLoading(true)
-
         try {
-            
-            await deleteTaskMutation({
-                variables: {
-                    input: {
-                        id: id,
-                    },
-                },
-
+            await deleteTask({
+                id: id,
             });
             toast.success('Task deleted successfully');
-
             onClose();
         } catch (error) {
-            console.error("Error deleting task:", error);
-            toast.error('Error deleting task');
-        } finally {
-            setIsLoading(false)
-        }
+            toast.error('Something went wrong');
+        } 
     };
 
 
@@ -68,6 +45,8 @@ export const DeleteModal = ({ isOpen, onClose, children, id, title }: DeleteModa
             >
                 <h2>Delete task</h2>
                 <h3>Are you sure you want to delete task <span>"{title}"</span> ?</h3>
+
+                
 
                 <StyledContainerButtons>
                     <StyledCancelButton theme={theme} onClick={stopPropagation}>Cancel</StyledCancelButton>

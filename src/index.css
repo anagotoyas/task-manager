@@ -39,6 +39,13 @@ body {
   background: #222528;
 }
 
+.ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  flex-grow: 1;
+}
+
 
 
 

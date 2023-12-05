@@ -9,7 +9,7 @@ import moment from "moment";
 
 
 interface DueDateButtonProps {
-    dateSelected: string | null;
+    dateSelected: string | undefined;
     setDateSelected: (date: string) => void;
 }
 

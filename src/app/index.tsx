@@ -3,23 +3,24 @@ import { ToastContainer } from 'react-toastify';
 import { Navigation } from '../navigation/Navigation'
 import "react-toastify/dist/ReactToastify.css";
 import { useGlobal } from '../context/GlobalContext';
-import styled from 'styled-components';
-import { Spin } from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
+import { Spinner } from '../components/common/Spinner';
+
 
 
 function App() {
 
-	const { isLoading } = useGlobal()
+	const {isLoading}=useGlobal()
+
 
 	return (
 		<>
 			<Navigation />
-			{isLoading && (
-                    <StyledSpinnerContainer>
-                        <Spin className="absolute"indicator={<LoadingOutlined style={{ fontSize: 40 }} spin />} />
-                    </StyledSpinnerContainer>
-                )}
+			{isLoading &&
+				<Spinner/>
+			}
+
+			
+		
 			<ToastContainer
 				position="top-right"
 				autoClose={5000}
@@ -40,13 +41,3 @@ function App() {
 
 export default App
 
-const StyledSpinnerContainer = styled.div`
-    display: flex;
-    justify-content: center;
-    position: absolute;
-    top: 40%;
-    left: 0;
-    right: 0;
-    z-index: 100;
-	overflow: hidden;
-`;
