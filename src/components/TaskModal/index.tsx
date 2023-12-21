@@ -15,7 +15,7 @@ import { TaskModalProps } from "../../utils/types";
 
 export const TaskModal = (props: TaskModalProps) => {
 
-    const { isOpen, onClose, children, initialData } = props;
+    const { isOpen, onClose, initialData } = props;
     
     const { setIsLoading, theme, createTask, updateTask  } = useGlobal()
     const [pointValue, setPointValue] = useState(initialData?.pointValue ?? undefined);
@@ -129,7 +129,7 @@ export const TaskModal = (props: TaskModalProps) => {
                         }
                     </StyledCreateButton>
                 </StyledContainerButtons>
-                {children}
+           
 
             </ModalContainer>
            

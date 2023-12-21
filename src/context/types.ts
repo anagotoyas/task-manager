@@ -11,4 +11,6 @@ export interface GlobalContextProps {
   createTask: (input: CreateTaskInput) => Promise<void>;
   deleteTask: (input: DeleteTaskInput) => Promise<void>;
   updateTask: (input: UpdateTaskInput) => Promise<void>;
+  setTasks: React.Dispatch<React.SetStateAction<Task[]>>; 
+
 }

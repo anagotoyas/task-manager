@@ -6,13 +6,12 @@ import { toast } from 'react-toastify';
 interface DeleteModalProps {
     isOpen: boolean;
     onClose: () => void;
-    children: React.ReactNode;
     id: string;
     title: string;
 }
 
 
-export const DeleteModal = ({ isOpen, onClose, children, id, title }: DeleteModalProps) => {
+export const DeleteModal = ({ isOpen, onClose, id, title }: DeleteModalProps) => {
 
     const { theme, deleteTask } = useGlobal()
 
@@ -53,8 +52,7 @@ export const DeleteModal = ({ isOpen, onClose, children, id, title }: DeleteModa
                     <StyledCreateButton theme={theme} onClick={handleDelete}>Delete</StyledCreateButton>
                 </StyledContainerButtons>
 
-                {children
-                }
+                
 
             </ModalContainer>
         </ModalOverlay>

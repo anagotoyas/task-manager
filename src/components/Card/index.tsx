@@ -107,7 +107,7 @@ export const Card = (props: CardProps) => {
                         <StyledMenuItems theme={theme}>
                             <Menu.Item >
                                 <StyledMenuButton theme={theme} onClick={handleUpdateTask}>
-                                    <RiPencilLine size={18} />Edit
+                                    <RiPencilLine size={18}/>Edit
                                 </StyledMenuButton>
                             </Menu.Item>
 

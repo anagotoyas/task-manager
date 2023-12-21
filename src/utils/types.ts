@@ -70,7 +70,6 @@ export interface GetAllTasksQuery {
 export interface TaskModalProps {
     isOpen: boolean;
     onClose: () => void;
-    children: React.ReactNode;
     initialData?: {
         id: string;
         title: string;

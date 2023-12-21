@@ -16,6 +16,7 @@ const initialContextValue: GlobalContextProps = {
   createTask: async () => { return Promise.resolve(); }, 
   deleteTask: async () => { return Promise.resolve(); }, 
   updateTask: async () => { return Promise.resolve(); },
+  setTasks: () => {},
 };
 
  
@@ -111,6 +112,7 @@ export function GlobalProvider({ children }: GlobalProviderProps) {
     collapseMenu,
     setIsLoading,
     tasks,
+    setTasks,
     createTask,
     deleteTask,
     updateTask,
