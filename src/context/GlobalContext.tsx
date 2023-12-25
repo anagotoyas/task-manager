@@ -29,8 +29,9 @@ interface GlobalProviderProps {
 
 
 export function GlobalProvider({ children }: GlobalProviderProps) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [selectedTheme, setSelectedTheme] = useState(0);
+  // @typescript-eslint/no-unused-vars
+const [selectedTheme, setSelectedTheme] = useState(0);
+
   const [isLoading, setIsLoading] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -116,6 +117,7 @@ export function GlobalProvider({ children }: GlobalProviderProps) {
     createTask,
     deleteTask,
     updateTask,
+    
   };
 
   return (
