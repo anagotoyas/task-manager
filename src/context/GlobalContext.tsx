@@ -29,14 +29,13 @@ interface GlobalProviderProps {
 
 
 export function GlobalProvider({ children }: GlobalProviderProps) {
-  // @typescript-eslint/no-unused-vars
-const [selectedTheme, setSelectedTheme] = useState(0);
+  // @typescript-eslint/no-unused-vars @ts-ignore
 
   const [isLoading, setIsLoading] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   const [tasks, setTasks] = useState<Task[]>([]);
 
-  const theme: Theme = themes[selectedTheme];
+  const theme: Theme = themes[0];
 
   const collapseMenu = () => {
     setCollapsed(!collapsed);
