@@ -1,4 +1,3 @@
-import React from 'react'
 import { useGlobal } from '../../../context/GlobalContext'
 import styled from 'styled-components'
 import { RiArrowDownSFill } from 'react-icons/ri'
