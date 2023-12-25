@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ButtonTask } from '../ButtonTask'
 import {  RiPriceTag3Fill } from 'react-icons/ri'
 import styled from 'styled-components'

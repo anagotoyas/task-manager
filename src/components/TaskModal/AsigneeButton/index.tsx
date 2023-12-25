@@ -1,4 +1,4 @@
-import React, {  useState } from 'react'
+import {  useState } from 'react'
 import { RiUser3Fill } from "react-icons/ri"
 
 import styled from 'styled-components';
